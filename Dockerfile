@@ -1,5 +1,12 @@
 FROM python:3.9.16-slim
 
+RUN sed -i "s@http://deb.debian.org@http://mirrors.aliyun.com@g" /etc/apt/sources.list &&\
+    rm -Rf /var/lib/apt/lists/* &&\
+    apt-get update
+
+RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U \
+    && pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+
 RUN apt-get update && \
     apt-get install -y gcc git libpq-dev libmagic1 && \
     apt clean && \
@@ -22,8 +29,5 @@ RUN pip install --upgrade pip && pip install wheel &&\
 # Code
 #================================================
 COPY . /code
-RUN useradd -m -d /code -s /bin/bash app \
-    && chown -R app:app /code/*
 WORKDIR /code/src
-USER app
 CMD ["uvicorn", "app.main:app", "--reload", "--host=0.0.0.0"]
