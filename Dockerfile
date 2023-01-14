@@ -29,5 +29,6 @@ RUN pip install --upgrade pip && pip install wheel &&\
 # Code
 #================================================
 COPY . /code
+RUN rm -Rf /code/.git
 WORKDIR /code/src
 CMD ["uvicorn", "app.main:app", "--reload", "--host=0.0.0.0"]
