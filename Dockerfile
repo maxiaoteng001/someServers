@@ -16,6 +16,10 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONIOENCODING utf-8
 
+# 时区设置
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN echo 'Asia/Shanghai' > /etc/timezone
+
 COPY requirements/ /tmp/requirements
 
 #================================================
